@@ -1,7 +1,7 @@
 package ru.stqa.pft.sandbox;
 
 /**
- * расчет расстояния.
+ * Pасчет расстояния.
  */
 public class Distance {
     public static void main(String[] args) {
