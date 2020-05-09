@@ -2,7 +2,11 @@ package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import ru.stqa.pft.addressbook.model.GroupData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GroupHelper extends HelperBase {
 
@@ -52,22 +56,22 @@ public class GroupHelper extends HelperBase {
     /**
      * Выбрать группу.
      */
-    public void selectGroup() {
-        click(By.xpath("//*[@id=\"content\"]/form/span/input"));
+    public void selectGroup(int index) {
+        wd.findElements(By.name("selected[]")).get(index).click();
     }
 
     /**
      * Запустить модификацию группы.
      */
     public void initGroupModification() {
-        click(By.xpath("//*[@id=\"content\"]/form/input[3]"));
+        click(By.name("edit"));
     }
 
     /**
-     * Изменить группу.
+     * Обновить группу.
      */
     public void submitGroupModification() {
-        click(By.xpath("//*[@id=\"content\"]/form/input[3]"));
+        click(By.name("update"));
     }
 
     /**
@@ -88,6 +92,32 @@ public class GroupHelper extends HelperBase {
      * @return наличие группы
      */
     public boolean isThereAGroup() {
-        return isElementPresent(By.name("selected"));
+        return isElementPresent(By.name("selected[]"));
+    }
+
+    /**
+     * Получить количество групп.
+     *
+     * @return количество групп
+     */
+    public int getGroupCount() {
+        return wd.findElements(By.name("selected[]")).size();
+    }
+
+    /**
+     * Получить список групп.
+     *
+     * @return список групп
+     */
+    public List<GroupData> getGroupList() {
+        List<GroupData> groups = new ArrayList<>();
+        List<WebElement> elements = wd.findElements(By.cssSelector("span.group"));
+        for (var element : elements) {
+            String name = element.getText();
+            int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+            GroupData group = new GroupData(id, name, null, null);
+            groups.add(group);
+        }
+        return groups;
     }
 }
