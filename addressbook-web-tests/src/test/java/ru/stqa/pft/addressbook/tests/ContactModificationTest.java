@@ -5,9 +5,9 @@ import ru.stqa.pft.addressbook.model.ContactData;
 
 public class ContactModificationTest extends TestBase {
 
-    @Test
+    @Test(enabled = false)
     public void testContactModification() {
-        app.getNavigationHelper().gotoHomePage();
+        app.goTo().homePage();
         if (!app.getContactHelper().isThereAContact()) {
             app.getContactHelper().createContact(new ContactData("Ivan", "Ivanovich", "new_group", "Lenina, 15", "name@asd.com", "71234567890"), true);
         }
