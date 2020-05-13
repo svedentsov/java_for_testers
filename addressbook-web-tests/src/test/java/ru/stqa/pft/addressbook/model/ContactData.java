@@ -1,8 +1,6 @@
 package ru.stqa.pft.addressbook.model;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.io.File;
 
 public class ContactData {
     private int id = 0;
@@ -12,12 +10,26 @@ public class ContactData {
     private String homePhone;
     private String mobilePhone;
     private String workPhone;
+    private String allPhones;
+    private File photo;
+
+    public File getPhoto() {
+        return photo;
+    }
+
+    public ContactData withPhoto(File photo) {
+        this.photo = photo;
+        return this;
+    }
 
     public void setAllPhones(String allPhones) {
         this.allPhones = allPhones;
     }
 
-    private String allPhones;
+    public ContactData withAllPhones(String allPhones) {
+        this.allPhones = allPhones;
+        return this;
+    }
 
     public ContactData withHomePhone(String homePhone) {
         this.homePhone = homePhone;
@@ -31,11 +43,6 @@ public class ContactData {
 
     public ContactData withWorkPhone(String workPhone) {
         this.workPhone = workPhone;
-        return this;
-    }
-
-    public ContactData withAllPhones(String allPhones) {
-        this.allPhones = allPhones;
         return this;
     }
 
