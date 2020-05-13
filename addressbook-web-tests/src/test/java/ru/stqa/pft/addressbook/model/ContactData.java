@@ -12,6 +12,11 @@ public class ContactData {
     private String homePhone;
     private String mobilePhone;
     private String workPhone;
+
+    public void setAllPhones(String allPhones) {
+        this.allPhones = allPhones;
+    }
+
     private String allPhones;
 
     public ContactData withHomePhone(String homePhone) {
@@ -80,6 +85,10 @@ public class ContactData {
 
     public String getWorkPhone() {
         return workPhone;
+    }
+
+    public String getAllPhones() {
+        return allPhones;
     }
 
     @Override
