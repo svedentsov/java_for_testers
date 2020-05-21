@@ -1,2 +1,3 @@
 include 'sandbox'
 include 'addressbook-web-tests'
+include 'mantis-tests'
