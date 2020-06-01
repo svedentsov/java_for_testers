@@ -21,7 +21,6 @@ import java.util.concurrent.TimeUnit;
 public class ApplicationManager {
     private final Properties properties;
     WebDriver wd;
-
     private ContactHelper contactHelper;
     private NavigationHelper navigationHelper;
     private SessionHelper sessionHelper;
@@ -68,22 +67,37 @@ public class ApplicationManager {
         wd.quit();
     }
 
+    /**
+     * Помощник группы.
+     */
     public GroupHelper group() {
         return groupHelper;
     }
 
+    /**
+     * Помощник контакта.
+     */
     public ContactHelper contact() {
         return contactHelper;
     }
 
+    /**
+     * Помощник навигации.
+     */
     public NavigationHelper goTo() {
         return navigationHelper;
     }
 
+    /**
+     * Помощник БД.
+     */
     public DbHelper db() {
         return dbHelper;
     }
 
+    /**
+     * Получить скриншот.
+     */
     public byte[] takeScreenshot() {
         return ((TakesScreenshot) wd).getScreenshotAs(OutputType.BYTES);
     }

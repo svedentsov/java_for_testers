@@ -8,6 +8,9 @@ import ru.stqa.pft.addressbook.model.Groups;
 
 import java.util.List;
 
+/**
+ * Класс помощник для работы с группами.
+ */
 public class GroupHelper extends HelperBase {
 
     public GroupHelper(WebDriver wd) {
@@ -15,18 +18,24 @@ public class GroupHelper extends HelperBase {
     }
 
     /**
-     * Вернуться на страницу списка групп.
+     * Нажать на таб "groups".
      */
     public void returnToGroupPage() {
         click(By.linkText("groups"));
     }
 
     /**
-     * Создать группу.
+     * Нажать на кнопку "Enter information".
      */
     public void submitGroupCreation() {
         click(By.name("submit"));
-        ;
+    }
+
+    /**
+     * Нажать на кнопку "Update".
+     */
+    public void submitGroupModification() {
+        click(By.name("update"));
     }
 
     /**
@@ -55,7 +64,9 @@ public class GroupHelper extends HelperBase {
     }
 
     /**
-     * Выбрать группу.
+     * Выбрать группу по id.
+     *
+     * @param id id группы
      */
     public void selectGroupById(int id) {
         wd.findElement(By.cssSelector("input[value='" + id + "']")).click();
@@ -66,13 +77,6 @@ public class GroupHelper extends HelperBase {
      */
     public void initGroupModification() {
         click(By.name("edit"));
-    }
-
-    /**
-     * Обновить группу.
-     */
-    public void submitGroupModification() {
-        click(By.name("update"));
     }
 
     /**
@@ -88,6 +92,11 @@ public class GroupHelper extends HelperBase {
         returnToGroupPage();
     }
 
+    /**
+     * Модифицировать группу.
+     *
+     * @param group группа
+     */
     public void modify(GroupData group) {
         selectGroupById(group.getId());
         initGroupModification();
@@ -97,6 +106,11 @@ public class GroupHelper extends HelperBase {
         returnToGroupPage();
     }
 
+    /**
+     * Удалить группу
+     *
+     * @param group группа
+     */
     public void delete(GroupData group) {
         selectGroupById(group.getId());
         deleteSelectGroup();
@@ -105,9 +119,9 @@ public class GroupHelper extends HelperBase {
     }
 
     /**
-     * Проверка наличия группы.
+     * Проверить наличие группы.
      *
-     * @return наличие группы
+     * @return признак наличия
      */
     public boolean isThereAGroup() {
         return isElementPresent(By.name("selected[]"));
@@ -123,7 +137,7 @@ public class GroupHelper extends HelperBase {
     }
 
     /**
-     * Кэш для множества групп.
+     * Кэш множества групп.
      */
     private Groups groupCache = null;
 
@@ -141,7 +155,9 @@ public class GroupHelper extends HelperBase {
         for (WebElement element : elements) {
             int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
             String name = element.getText();
-            groupCache.add(new GroupData().withId(id).withName(name));
+            groupCache.add(new GroupData()
+                    .withId(id)
+                    .withName(name));
         }
         return new Groups(groupCache);
     }

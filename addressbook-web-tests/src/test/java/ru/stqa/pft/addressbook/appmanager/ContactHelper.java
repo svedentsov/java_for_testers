@@ -6,13 +6,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.Contacts;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class ContactHelper extends HelperBase {
-
     public ContactHelper(WebDriver wd) {
         super(wd);
     }
@@ -30,6 +28,13 @@ public class ContactHelper extends HelperBase {
         returnToHomePage();
     }
 
+    public void create(ContactData contact) {
+        fillContactForm(contact, true);
+        submitContactCreation();
+        contactCache = null;
+        returnToHomePage();
+    }
+
     /**
      * Заполнить форму контакта.
      *
@@ -37,10 +42,19 @@ public class ContactHelper extends HelperBase {
      * @param creation
      */
     public void fillContactForm(ContactData contactData, boolean creation) {
-        type(By.name("firstname"), contactData.getFirstname());
-        type(By.name("lastname"), contactData.getLastname());
-        attach(By.name("photo"), contactData.getPhoto());
-        if (creation) {
+        type(By.name("firstname"),contactData.getFirstname());
+        type(By.name("middlename"),contactData.getMiddlename());
+        type(By.name("lastname"),contactData.getLastname());
+        type(By.name("address"),contactData.getAddress());
+        type(By.name("home"),contactData.getPhoneHome());
+        type(By.name("mobile"),contactData.getPhoneMobile());
+        type(By.name("work"),contactData.getPhoneWork());
+        type(By.name("email"),contactData.getEmail());
+        type(By.name("email2"), contactData.getEmail2());
+        type(By.name("email3"), contactData.getEmail3());
+        //attach(By.name("photo"),contactData.getPhoto());
+
+        if (creation){
             if (contactData.getGroups().size() > 0) {
                 Assert.assertTrue(contactData.getGroups().size() == 1);
                 new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
@@ -110,12 +124,20 @@ public class ContactHelper extends HelperBase {
     }
 
     /**
+     * Кэш множества контактов.
+     */
+    private Contacts contactCache = null;
+
+    /**
      * Получить множество контактов.
      *
      * @return множество контактов
      */
-    public Set<ContactData> all() {
-        Set<ContactData> contacts = new HashSet<>();
+    public Contacts all() {
+        if (contactCache != null) {
+            return new Contacts(contactCache);
+        }
+        contactCache = new Contacts();
         List<WebElement> rows = wd.findElements(By.name("entry"));
         for (WebElement row : rows) {
             List<WebElement> cells = row.findElements(By.tagName("td"));
@@ -123,10 +145,13 @@ public class ContactHelper extends HelperBase {
             String firstname = cells.get(2).getText();
             String lastname = cells.get(1).getText();
             String allPhones = cells.get(5).getText();
-            contacts.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname)
+            contactCache.add(new ContactData()
+                    .withId(id)
+                    .withFirstname(firstname)
+                    .withLastname(lastname)
                     .withAllPhones(allPhones));
         }
-        return contacts;
+        return new Contacts(contactCache);
     }
 
     public ContactData infoFromEditForm(ContactData contact) {
@@ -138,7 +163,7 @@ public class ContactHelper extends HelperBase {
         String work = wd.findElement(By.name("work")).getAttribute("value");
         wd.navigate().back();
         return new ContactData().withId(contact.getId()).withFirstname(firstname).withLastname(lastname)
-                .withHomePhone(home).withMobilePhone(mobile).withWorkPhone(work);
+                .withPhoneHome(home).withPhoneMobile(mobile).withPhoneWork(work);
     }
 
     private void initContactModificationById(int id) {
@@ -149,5 +174,9 @@ public class ContactHelper extends HelperBase {
 //        wd.findElement(By.xpath(String.format("//input[@value='%s']/../../td[8]/a", id))).click();
 //        wd.findElement(By.xpath(String.format("//tr[.//input[@value='%s']]/td[8]/a", id))).click();
 //        wd.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']", id))).click();
+    }
+
+    public int count() {
+        return wd.findElements(By.name("selected[]")).size();
     }
 }
