@@ -68,35 +68,35 @@ public class ApplicationManager {
     }
 
     /**
-     * Помощник группы.
+     * Помощник группы
      */
     public GroupHelper group() {
         return groupHelper;
     }
 
     /**
-     * Помощник контакта.
+     * Помощник контакта
      */
     public ContactHelper contact() {
         return contactHelper;
     }
 
     /**
-     * Помощник навигации.
+     * Помощник навигации
      */
     public NavigationHelper goTo() {
         return navigationHelper;
     }
 
     /**
-     * Помощник БД.
+     * Помощник БД
      */
     public DbHelper db() {
         return dbHelper;
     }
 
     /**
-     * Получить скриншот.
+     * Получить скриншот
      */
     public byte[] takeScreenshot() {
         return ((TakesScreenshot) wd).getScreenshotAs(OutputType.BYTES);

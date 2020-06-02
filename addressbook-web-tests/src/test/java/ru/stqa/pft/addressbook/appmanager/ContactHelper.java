@@ -18,21 +18,26 @@ public class ContactHelper extends HelperBase {
     /**
      * Создание (редактирование) контакта.
      *
-     * @param data     данные контакта
+     * @param contact  данные контакта
      * @param creation frue - создание, false - редактирование
      */
-    public void createContact(ContactData data, boolean creation) {
-        initContactCreation();
-        fillContactForm(data, creation);
+    public void createContact(ContactData contact, boolean creation) {
+        creation();
+        fillContactForm(contact, creation);
         submitContactCreation();
-        returnToHomePage();
+        gotoHomePage();
     }
 
+    /**
+     * Создать контакт
+     *
+     * @param contact
+     */
     public void create(ContactData contact) {
         fillContactForm(contact, true);
         submitContactCreation();
         contactCache = null;
-        returnToHomePage();
+        gotoHomePage();
     }
 
     /**
@@ -42,19 +47,19 @@ public class ContactHelper extends HelperBase {
      * @param creation
      */
     public void fillContactForm(ContactData contactData, boolean creation) {
-        type(By.name("firstname"),contactData.getFirstname());
-        type(By.name("middlename"),contactData.getMiddlename());
-        type(By.name("lastname"),contactData.getLastname());
-        type(By.name("address"),contactData.getAddress());
-        type(By.name("home"),contactData.getPhoneHome());
-        type(By.name("mobile"),contactData.getPhoneMobile());
-        type(By.name("work"),contactData.getPhoneWork());
-        type(By.name("email"),contactData.getEmail());
+        type(By.name("firstname"), contactData.getFirstname());
+        type(By.name("middlename"), contactData.getMiddlename());
+        type(By.name("lastname"), contactData.getLastname());
+        type(By.name("address"), contactData.getAddress());
+        type(By.name("home"), contactData.getPhoneHome());
+        type(By.name("mobile"), contactData.getPhoneMobile());
+        type(By.name("work"), contactData.getPhoneWork());
+        type(By.name("email"), contactData.getEmail());
         type(By.name("email2"), contactData.getEmail2());
         type(By.name("email3"), contactData.getEmail3());
         //attach(By.name("photo"),contactData.getPhoto());
 
-        if (creation){
+        if (creation) {
             if (contactData.getGroups().size() > 0) {
                 Assert.assertTrue(contactData.getGroups().size() == 1);
                 new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().next().getName());
@@ -67,7 +72,7 @@ public class ContactHelper extends HelperBase {
     /**
      * Запустить создание контакта.
      */
-    public void initContactCreation() {
+    public void creation() {
         click(By.linkText("add new"));
     }
 
@@ -78,14 +83,33 @@ public class ContactHelper extends HelperBase {
         click(By.name("submit"));
     }
 
-    /**
-     * Удаление выбранного контакта.
-     */
-    public void deleteSelectContact() {
-        click(By.xpath("//*[@id=\"content\"]/form[2]/div[2]/input"));
+    public void delete(ContactData contact) {
+        selectContactById(contact);
+        deleteSelectedContact();
+        contactCache = null;
     }
 
-    public void confirmDeleteContact() {
+    /**
+     * Выбрать контакт.
+     */
+    public void selectContact(int index) {
+        wd.findElements(By.name("selected[]")).get(index).click();
+    }
+
+    /**
+     * Выбрать контакт по идентификатору
+     *
+     * @param contact контакт
+     */
+    public void selectContactById(ContactData contact) {
+        wd.findElement(By.xpath(".//input[@value='" + contact.getId() + "']")).click();
+    }
+
+    /**
+     * Удалить выбранный контакт
+     */
+    public void deleteSelectedContact() {
+        click(By.xpath(".//input[@value='Delete']"));
         wd.switchTo().alert().accept();
     }
 
@@ -94,7 +118,7 @@ public class ContactHelper extends HelperBase {
     }
 
     /**
-     * Подтверждение удаления контакта.
+     * Подтвердить удаление контакта
      */
     public void submitContactModification() {
         click(By.name("update"));
@@ -103,15 +127,8 @@ public class ContactHelper extends HelperBase {
     /**
      * Вернуться на главную страницу.
      */
-    public void returnToHomePage() {
+    public void gotoHomePage() {
         click(By.linkText("home"));
-    }
-
-    /**
-     * Выбрать контакт.
-     */
-    public void selectContact(int index) {
-        wd.findElements(By.name("selected[]")).get(index).click();
     }
 
     /**

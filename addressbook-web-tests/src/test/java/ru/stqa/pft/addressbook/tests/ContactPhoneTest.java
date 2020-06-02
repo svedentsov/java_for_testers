@@ -11,20 +11,20 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactPhoneTest extends TestBase {
 
-    @Test
-    public void testContactPhone() {
-        app.goTo().homePage();
-        ContactData contact = app.contact().all().iterator().next();
-        ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
-        assertThat(contact.getAllPhones(), equalTo(megrePhones(contactInfoFromEditForm)));
-    }
+//    @Test
+//    public void testContactPhone() {
+//        app.goTo().homePage();
+//        ContactData contact = app.contact().all().iterator().next();
+//        ContactData contactInfoFromEditForm = app.contact().infoFromEditForm(contact);
+//        assertThat(contact.getAllPhones(), equalTo(megrePhones(contactInfoFromEditForm)));
+//    }
 
-    private String megrePhones(ContactData contact) {
-        return Arrays.asList(contact.getHomePhone(), contact.getMobilePhone(), contact.getWorkPhone())
-                .stream().filter(s -> !s.equals(""))
-                .map(ContactPhoneTest::cleaned)
-                .collect(Collectors.joining("\n"));
-    }
+//    private String megrePhones(ContactData contact) {
+//        return Arrays.asList(contact.getHomePhone(), contact.getMobilePhone(), contact.getWorkPhone())
+//                .stream().filter(s -> !s.equals(""))
+//                .map(ContactPhoneTest::cleaned)
+//                .collect(Collectors.joining("\n"));
+//    }
 
     public static String cleaned(String phone) {
         return phone.replace("\\s", "").replace("[-()]", "");
