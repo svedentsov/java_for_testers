@@ -83,6 +83,11 @@ public class ContactHelper extends HelperBase {
         click(By.name("submit"));
     }
 
+    /**
+     * Удалить контакт
+     *
+     * @param contact контакт
+     */
     public void delete(ContactData contact) {
         selectContactById(contact);
         deleteSelectedContact();
@@ -90,7 +95,7 @@ public class ContactHelper extends HelperBase {
     }
 
     /**
-     * Выбрать контакт.
+     * Выбрать контакт
      */
     public void selectContact(int index) {
         wd.findElements(By.name("selected[]")).get(index).click();
@@ -113,10 +118,6 @@ public class ContactHelper extends HelperBase {
         wd.switchTo().alert().accept();
     }
 
-    public void initContactModification() {
-        click(By.cssSelector("img[alt='Edit']"));
-    }
-
     /**
      * Подтвердить удаление контакта
      */
@@ -132,12 +133,26 @@ public class ContactHelper extends HelperBase {
     }
 
     /**
-     * Проверка наличия контакта.
+     * Проверить наличие контакта
      *
      * @return наличие контакта
      */
     public boolean isThereAContact() {
         return isElementPresent(By.name("selected[]"));
+    }
+
+    /**
+     * Изменить контакт
+     *
+     * @param contact контакт
+     */
+    public void modify(ContactData contact) {
+        selectContactById(contact);
+        initContactModificationById(contact.getId());
+        fillContactForm(contact, false);
+        submitContactModification();
+        contactCache = null;
+        gotoHomePage();
     }
 
     /**
@@ -193,6 +208,11 @@ public class ContactHelper extends HelperBase {
 //        wd.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']", id))).click();
     }
 
+    /**
+     * Получить количество контактов
+     *
+     * @return количество контактов
+     */
     public int count() {
         return wd.findElements(By.name("selected[]")).size();
     }
