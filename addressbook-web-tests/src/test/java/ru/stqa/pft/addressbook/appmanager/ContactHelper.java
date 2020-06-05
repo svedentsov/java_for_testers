@@ -194,8 +194,13 @@ public class ContactHelper extends HelperBase {
         String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
         String work = wd.findElement(By.name("work")).getAttribute("value");
         wd.navigate().back();
-        return new ContactData().withId(contact.getId()).withFirstname(firstname).withLastname(lastname)
-                .withPhoneHome(home).withPhoneMobile(mobile).withPhoneWork(work);
+        return new ContactData()
+                .withId(contact.getId())
+                .withFirstname(firstname)
+                .withLastname(lastname)
+                .withPhoneHome(home)
+                .withPhoneMobile(mobile)
+                .withPhoneWork(work);
     }
 
     private void initContactModificationById(int id) {
