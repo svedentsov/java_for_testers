@@ -10,10 +10,14 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Информация контакта.
+ */
 @XStreamAlias("contact")
 @Entity
 @Table(name = "addressbook")
 public class ContactData {
+
     @XStreamOmitField
     @Id
     @Column(name = "id")
@@ -140,7 +144,6 @@ public class ContactData {
     public File getPhoto() {
         return new File(photo);
     }
-
 
     public Groups getGroups() {
         return new Groups(groups);

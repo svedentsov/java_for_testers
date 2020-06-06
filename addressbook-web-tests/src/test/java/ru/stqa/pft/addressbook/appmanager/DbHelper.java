@@ -43,4 +43,15 @@ public class DbHelper {
         session.close();
         return new Contacts(result);
     }
+
+    /**
+     * Перечитать состояние контакта из БД.
+     *
+     * @param contact контакт
+     */
+    public void refresh(ContactData contact) {
+        Session session = sessionFactory.openSession();
+        session.refresh(contact);
+        session.close();
+    }
 }
