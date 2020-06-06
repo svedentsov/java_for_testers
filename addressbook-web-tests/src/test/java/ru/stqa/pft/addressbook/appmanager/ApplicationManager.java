@@ -68,28 +68,28 @@ public class ApplicationManager {
     }
 
     /**
-     * Помощник в работе с группами.
+     * Помощник для работы с группами.
      */
     public GroupHelper group() {
         return groupHelper;
     }
 
     /**
-     * Помощник в работе с контактами.
+     * Помощник для работы с контактами.
      */
     public ContactHelper contact() {
         return contactHelper;
     }
 
     /**
-     * Помощник в работе с навигацией.
+     * Помощник для работы с навигацией.
      */
     public NavigationHelper goTo() {
         return navigationHelper;
     }
 
     /**
-     * Помощник в работе с БД.
+     * Помощник для работы с БД.
      */
     public DbHelper db() {
         return dbHelper;

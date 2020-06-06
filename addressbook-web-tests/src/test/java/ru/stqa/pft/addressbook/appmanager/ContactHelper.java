@@ -188,7 +188,7 @@ public class ContactHelper extends HelperBase {
     }
 
     /**
-     * Получить информацию на странице редактирования
+     * Получить информацию на странице изменения контакта.
      *
      * @param contact контакт
      */
@@ -218,7 +218,7 @@ public class ContactHelper extends HelperBase {
     }
 
     /**
-     * Открыть страницу редактирования
+     * Открыть страницу изменения контакта.
      *
      * @param id идентификатор контакта
      */
@@ -233,7 +233,7 @@ public class ContactHelper extends HelperBase {
     }
 
     /**
-     * Получить количество контактов
+     * Получить количество контактов.
      *
      * @return количество контактов
      */
